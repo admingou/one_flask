@@ -1,0 +1,34 @@
+body{
+	margin: 0;
+	padding: 0;
+    /*background: #d2d2d2;*/
+}
+#title{
+    text-align: center;
+    font-size: 2.0pc;
+    background: #66b1ff;
+        }
+#app{
+  position: absolute;
+  top: 5%;
+  left: 48%;
+  margin: -35% 0 0 -15%;
+  width: 35%;
+  height: 50%;
+  margin-top: 50px;
+  color: #40E0D0;
+  align-items: center;
+  /*box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04)*/
+}
+.box{
+  position: absolute;
+  top: 10%;
+  left: 35%;
+  margin: -35% 0 0 -15%;
+  width: 60%;
+  height: 70%;
+  margin-top: 50px;
+  color: #40E0D0;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04)
+}

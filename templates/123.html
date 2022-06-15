@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>ezlogic环境申请</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../static/layui.css"  media="all">
+    <style>
+        body{
+            background: #d2d2d2;
+        }
+        .box5{
+            display: block;
+        }
+        .box{
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+        }
+        .btn{
+            width: 200px;
+            margin: 0 auto;
+        }
+        #title{
+            text-align: center;
+            font-size: 2.3pc;
+            background: #009688;
+        }
+        label{
+            font-size: 16px;
+            width: 200px;
+            height: 30px; /*高度需要添加，不然文字下面会多出一些空隙*/
+            text-align: justify;
+        }
+        /*.label {*/
+        /*    width: 200px;*/
+        /*    height: 30px; !*高度需要添加，不然文字下面会多出一些空隙*!*/
+        /*    text-align: justify;*/
+        /*}*/
+        label:after{
+            content: '';
+            display: inline-block;
+            width: 100%;
+        }
+    </style>
+    <style type="text/css">
+        /*********LoadingPage*************/
+
+        #loading {
+            position: absolute;
+            display: none;
+            background-color: #FFF;:
+
+        top: 0px;
+            left: 0px;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+        }
+        #loading_bg{
+            background-color: rgba(0,0,0,0.7);
+        }
+        /*//body {*/
+        /*  //  background: #eaecfa;*/
+        /*  //}*/
+
+        .loader {
+            width: 250px;
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+            font-family: helvetica, arial, sans-serif;
+            text-transform: uppercase;
+            font-weight: 900;
+            color: #009688;
+            letter-spacing: 0.2em;
+        }
+        .loader::before, .loader::after {
+            content: "";
+            display: block;
+            width: 15px;
+            height: 15px;
+            background: #009688;
+            position: absolute;
+            -webkit-animation: load .7s infinite alternate ease-in-out;
+            animation: load .7s infinite alternate ease-in-out;
+        }
+        .loader::before {
+            top: 0;
+        }
+        .loader::after {
+            bottom: 0;
+        }
+
+        @-webkit-keyframes load {
+            0% {
+                left: 0;
+                height: 30px;
+                width: 15px;
+            }
+            50% {
+                height: 8px;
+                width: 40px;
+            }
+            100% {
+                left: 235px;
+                height: 30px;
+                width: 15px;
+            }
+        }
+
+        @keyframes load {
+            0% {
+                left: 0;
+                height: 30px;
+                width: 15px;
+            }
+            50% {
+                height: 8px;
+                width: 40px;
+            }
+            100% {
+                left: 235px;
+                height: 30px;
+                width: 15px;
+            }
+        }
+
+        /********************************/
+    </style>
+</head>
+<body>
+    <center>
+        <div id="title">
+            <span>EZlogic3.0 demo环境申请</span>
+        </div>
+    </center>
+<form class="layui-form box" >
+    <div class="box5">
+    <div class="layui-form-item">
+        <label class="layui-form-label">demo-名称</label>
+        <div class="layui-input-block">
+            <input type="text" name="demo" lay-verify="title" autocomplete="off" placeholder="demo名称" class="layui-input">
+        </div>
+    </div><div class="layui-form-item">
+        <label class="layui-form-label">用&emsp;户&emsp;名</label>
+        <div class="layui-input-block">
+            <input type="text" name="username" lay-verify="title" autocomplete="off" placeholder="用户名" class="layui-input">
+        </div>
+    </div><div class="layui-form-item">
+        <label class="layui-form-label">密&emsp;&emsp;&emsp;码</label>
+        <div class="layui-input-block">
+            <input type="password" name="password" lay-verify="title" autocomplete="off" placeholder="密码" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item btn" >
+        <button class="layui-btn" lay-submit="" lay-filter="demo2" onclick="Shows()">申请ezlogic3.0demo</button>
+    </div>
+    </div>
+</form>
+
+<script src="../static/layui.js" charset="utf-8"></script>
+<script>
+    layui.use(['form', 'layedit', 'laydate'], function(){
+        var form = layui.form
+            ,layer = layui.layer
+            ,layedit = layui.layedit
+            ,laydate = layui.laydate;
+        //日期
+        laydate.render({
+            elem: '#date'
+        });
+        laydate.render({
+            elem: '#date1'
+        });
+
+        //创建一个编辑器
+        var editIndex = layedit.build('LAY_demo_editor');
+
+        //自定义验证规则
+        form.verify({
+            title: function(value){
+                if(value.length < 2){
+                    return '标题至少得2个字符啊';
+                }
+            }
+            ,pass: [
+                /^[\S]{6,12}$/
+                ,'密码必须6到12位，且不能出现空格'
+            ]
+            ,content: function(value){
+                layedit.sync(editIndex);
+            }
+        });
+
+        //监听指定开关
+        form.on('switch(switchTest)', function(data){
+            layer.msg('开关checked：'+ (this.checked ? 'true' : 'false'), {
+                offset: '6px'
+            });
+            layer.tips('温馨提示：请注意开关状态的文字可以随意定义，而不仅仅是ON|OFF', data.othis)
+        });
+
+        //监听提交
+        form.on('submit(demo1)', function(data){
+            layer.alert(JSON.stringify(data.field), {
+                title: '最终的提交信息'
+            })
+            return false;
+        });
+
+        //表单赋值
+        layui.$('#LAY-component-form-setval').on('click', function(){
+            form.val('example', {
+                "username": "贤心" // "name": "value"
+                ,"password": "123456"
+                ,"interest": 1
+                ,"like[write]": true //复选框选中状态
+                ,"close": true //开关状态
+                ,"sex": "女"
+                ,"desc": "我爱 layui"
+            });
+        });
+
+        //表单取值
+        layui.$('#LAY-component-form-getval').on('click', function(){
+            var data = form.val('example');
+            alert(JSON.stringify(data));
+        });
+
+    });
+</script>
+  <div class="loading">
+      <div id="loading">
+        <div id="loading_bg">
+            <div class="loader">deno环境启动中.........</div>
+        </div>
+    </div>
+    <script>
+        //Loading页面
+        document.onreadystatechange=function () {
+            if (document.readyState=="complete"){
+                loadingFade();
+            }
+        }
+        function loadingFade() {
+            var opacity=1;
+            //var loadingPage=document.getElementById('loading');
+            var loadingBackground=document.getElementById('loading_bg');
+            var time=setInterval(function () {
+                if (opacity<=0){
+                    clearInterval(time);
+                    //loadingPage.remove();
+                    $('#loading').remove();
+                }
+
+                loadingBackground.style.opacity=opacity;
+                opacity-=0;
+            },100);
+        }
+
+    </script>
+
+  </div>
+  <script>
+        function Shows(){
+          	 console.log("00000000");
+             $("#box5").style.display="none";
+             $("#loading").style.display="block";
+          }
+
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>注册</title>
+    <script src="../static/axios.min.js"></script>
+    <script src="../static/jquery.js"></script>
+    <script src="../static/vue.js"></script>
+    <script src="../static/index.js"></script>
+<!--    <link rel="stylesheet" href="../static/index.css">-->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="../static/logins.css">
+</head>
+<body>
+     <div class="tpt-login" id="app">
+    <h2>欢迎注册高效魔方</h2>
+    <form name="register_from">
+    <input type="text" name="name" placeholder="请输入账号">
+    <input type="password" name="password" placeholder="请输入密码">
+        <input type="password" name="che_password" placeholder="请确认密码">
+        <div><input type="text" name="email" placeholder="邮箱"></div>
+    <button type="button" @click="register_user">立即注册</button>
+    </form>
+         <div class="zhu"><a href="/login">已有账号?前往登录>>></a></div>
+    </div>
+<script>
+        var Main ={
+            methods: {
+                 register_user(){
+                        var name = register_from.name.value;
+                        var pwd = register_from.password.value;
+                        var che_pwd = register_from.che_password.value;
+                        var email = register_from.email.value;
+                        if(name && pwd && che_pwd && email) {
+                            if (pwd == che_pwd) {
+                                var data = {"username":name,"password":pwd,"email":email};
+                                axios.post("/register", data, {
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    }
+                                })
+                                    .then(res => {
+                                        console.log(res);
+                                        if (res.data.status_code == 2000) {
+                                            console.log("注册成功！");
+                                            window.location.href = '/';
+                                        } else {
+                                            console.log(res.data);
+                                            this.$message.error(res.data.msg);
+                                            console.log("注册失败！")
+                                        }
+                                    })
+                                    .catch(err => {
+                                        console.log(err);
+                                        this.$message.error("服务开小差了");
+                                    })
+                            }else{
+                                this.$message.error("两次输入密码不一致");
+                            }
+                            } else {
+                                this.$message.error("未填入参数");
+                        }
+                 },
+
+            }
+        };
+        var Ctor = Vue.extend(Main);
+        new Ctor().$mount('#app')
+</script>
+</body>
+</html>

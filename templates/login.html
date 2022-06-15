@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <script src="../static/axios.min.js"></script>
+    <script src="../static/jquery.js"></script>
+    <script src="../static/vue.js"></script>
+    <script src="../static/index.js"></script>
+<!--    <link rel="stylesheet" href="../static/index.css">-->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="../static/logins.css">
+</head>
+<body>
+<!--     登录框-->
+     <div class="tpt-login">
+    <h2>欢迎使用高效魔方</h2>
+    <form name="from1">
+    <input type="text" name="name" placeholder="请输入账号">
+    <input type="password" name="password" placeholder="请输入密码">
+    <p >
+    <span onclick="i_status()"><i id="ip"></i></span>记住登录凭证（有效期一周）
+
+    </p>
+
+    <div id="app"><button   @click="hover_msg" type="button">立即登录</button>
+        <button type="button" @click="an_all">游客登录</button>
+    </div>
+    </form>
+         <div class="zhu"><a href="/register">没有账号?前往注册>>></a></div>
+    </div>
+<!--     登录框结束-->
+     <div class="tl">
+         <span>高效魔方|版权 @2022 gxmf.com 公益活动</span>
+     </div>
+     <script>
+            var myi = document.getElementById("ip");
+            var computedStyle = document.defaultView.getComputedStyle(myi, null);
+            function i_status() {
+                // 设置登录凭证期限
+                  console.log("code:"+ computedStyle.opacity);
+                if (computedStyle.opacity == 0) {
+                    document.getElementById("ip").style.opacity = 1;
+                } else {
+                    document.getElementById("ip").style.opacity = 0;
+                }
+            }
+     </script>
+<script>
+    // 随机生成游客密钥
+    function randomString(length) {
+      var str = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      var result = '';
+      for (var i = length; i > 0; --i)
+        result += str[Math.floor(Math.random() * str.length)];
+      // this.ruleForm.code = result;
+      return result
+    }
+</script>
+<script >
+    var myi = document.getElementById("ip");
+    var computedStyle = document.defaultView.getComputedStyle(myi, null);
+    var Main = {
+        methods: {
+              hover_msg(){
+                  // 获取账号密码
+                var name = from1.name.value;
+                var pass = String(window.btoa(from1.password.value));
+                var code = computedStyle.opacity;
+                var data = {"username": name, "password":pass, "code": code};
+                if (name && pass) {
+                    console.log("账号：" + name + "----------------> 密码：" + pass + "------>"+ "code:" + code);
+                    console.log(pass);
+                    console.log(data);
+                    axios.post("/login", data,{
+                                headers: {
+                         'Content-Type': 'application/json'
+                    }
+                    })
+                    .then(res=> {
+                        console.log(res);
+                        if (res.data.status_code == 2000) {
+                            console.log("登录成功！");
+                            window.location.href='/';
+                        } else {
+                            console.log(res.data);
+                            this.$message.error(res.data.msg);
+                            console.log("登录失败!")
+                        }
+                    })
+                    .catch(err => {
+                      console.log(err);
+                      this.$message.error("服务开小差了");
+                    })
+                } else {
+                    this.$message.error("未填写账号密码");
+                }
+              },
+              an_all(){
+                  var user = "高效魔方" + (new Date()).valueOf();
+                  var password = window.btoa(randomString(16));
+                  axios.post("/login",{"username": user, "password": password},{
+                                headers: {
+                         'Content-Type': 'application/json'
+                    }
+                    })
+                    .then(res=> {
+                        console.log();
+                        if (res.data.status_code == 2000) {
+                            console.log("游客用户：" + user +"-----------> 密码:" + password);
+                            console.log("登录成功！")
+                        }
+                    })
+              }
+        }
+    };
+    var Ctor = Vue.extend(Main);
+    new Ctor().$mount('#app')
+</script>
+
+</body>
+</html>
