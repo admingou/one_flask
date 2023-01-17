@@ -7,6 +7,7 @@ from flask import render_template,request,send_from_directory,current_app,sessio
 from . import home
 import os
 import base64
+import time
 
 
 
@@ -62,6 +63,7 @@ def  user_login():
    :return:
    """
    if request.method == "POST":
+
        data = request.json
        show_user = User()
        user = show_user.get_date(data)

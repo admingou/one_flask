@@ -17,7 +17,8 @@ class Base(db.Model):
         :param dicts: 数据源
         :return: 添加状态
         """
+        print(dicts,type(dicts))
         if dicts:
             for k, v in dicts.items():
-                if hasattr(self, k) and k != "id" and k != "create_time" and k != "update_time":
+                if hasattr(self, k) and k != "id" and k != "create_time" and k != "update_time" and k !="codes":
                     setattr(self, k, v)

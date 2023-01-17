@@ -12,12 +12,10 @@ class CloudPan(Base):
     user_id = Column(Integer, nullable=False)
     #文件名
     file_name = Column(String(64),unique=True, nullable=False)
-    #存储位置
-    file_path = Column(String(64),unique=True, nullable=False)
     #文件MD5
     md5s = Column(String(64),unique=True, nullable=False)
-    #文件描述
-    msg = Column(String(128), nullable=False)
+    #是否公开
+    if_all = Column(Integer, nullable=False)
     #下载次数
     down_num = Column(Integer, nullable=False)
     #更新时间
@@ -26,15 +24,15 @@ class CloudPan(Base):
 
 
 
-    def get_date(self, names=None):
+    def get_date(self, user_id=None):
         """
         查询数据
         :param names: 查询字段
         :return:
         """
-        date = CloudPan.query.filter().all()
-        if names:
-            date = CloudPan.query.filter_by(names.keys()[0] == names.get(names.keys()[0])).all()
+        date = CloudPan.query.filter_by(if_all = 1 ).all()
+        if user_id:
+            date = CloudPan.query.filter_by(user_id = user_id).all()
         return date
 
     def update_date(self, id, updates):
@@ -50,6 +48,7 @@ class CloudPan(Base):
             return 0
         except:
             return 1
+
 
     def delete_date(self, id):
         """

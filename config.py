@@ -25,7 +25,7 @@ vert = "sqlserver"
 pros = "sqlserver"
 
 #kafka连接
-kafka_ip_port = "192.28.1.239:9092"
+kafka_ip_port = "192.28.1.238:9092"
 kafka_topic = "read"
 
 #取数间隔时间(秒)

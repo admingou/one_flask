@@ -4,6 +4,7 @@ from one_all_web.models.base_model import db
 from  sqlalchemy import Column,String,DateTime,Integer
 from one_all_web.models.base_model import Base
 import datetime
+import base64
 
 
 class User(Base):

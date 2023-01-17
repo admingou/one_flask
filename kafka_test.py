@@ -4,6 +4,7 @@ from kafka import KafkaProducer
 import  threading
 import  json
 import  time
+import random
 
 #配置读取
 conf = SourceFileLoader("config","./config.py").load_module()
@@ -55,15 +56,21 @@ def  new_send_kafka(log):
         # logger.error("数据发送kafka异常,原因:%s" % str(f))
 
 
+def  get_path():
+    return random.choice(["c://tutu/efdfdfdfdsfdsfdsfdsfdsf//weweweew//reffgrrvr/tutu.conf",
+                           "c://ttgtgt/efefe//acc.txt",
+                           "e://hgkjjyjyjy/ddvdvdvdvdvd/test.exe",
+                           "f://ty/yuyu/uuiuoi//yuyuyuyu//kkk.docx",
+                           "k://fgfvfvfv//vfvfvvvvvvvvvvvvvvv//ioioikiiukkuiu//wqeewrewrere/rgregbfdvdsvdsvd/cdcdcds/mm.yml"])
+
 if  __name__ == "__main__":
     start_time = time.time()
     num = 0
     for  _ in range(100000000):
         end_time = time.time()
         a = end_time -start_time
-        if a <= (60*60):
-             tu = threading.Thread(target=new_send_kafka, args=({"name":"gou","age":23},))
-             #tus = threading.Thread(target=new_send_kafka, args=({"name":"gou","age":23},))
+        if a <=1:
+             tu = threading.Thread(target=new_send_kafka, args=({"vendor":"sqlserver","product":"sqlserver","message":str({"name":"gou","age":23,"path":get_path()})},))
              tu.start()
              tu.join()
              num +=1
